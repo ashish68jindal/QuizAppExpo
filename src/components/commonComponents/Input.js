@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import propTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 import { SF, SH, SW, Fonts, Colors } from '../../utils';
-import { Input } from 'react-native-elements';
+import { Input } from '@rneui/themed';
 
 function Inputs({
   title,
@@ -105,23 +105,6 @@ function Inputs({
     </View>
   );
 }
-
-Inputs.defaultProps = {
-  title: '',
-  placeholder: '',
-  titleStyle: {},
-  inputStyle: {},
-  onChangeText: () => { },
-  onFocus: () => { },
-  onBlur: () => { },
-  value: '',
-  textprops: {},
-  inputprops: {},
-  inputType: null,
-  autoCompleteType: '',
-  onEndEditing: () => { },
-
-};
 
 Inputs.propTypes = {
   title: propTypes.string,

@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch } from '@rneui/themed';
+import { Switch } from 'react-native-elements';
 
 function Switchs(props) {
     const { trackColor, onValueChange, thumbColor, value, } = props;

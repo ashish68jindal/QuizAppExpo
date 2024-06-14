@@ -42,7 +42,9 @@ export default SwiperStyle = (Colors) => StyleSheet.create({
   },
   AnimationViewStyle: {
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    height:'100%',
+    width:'100%',
   },
   NextTextStyle: {
     fontFamily: Fonts.Poppins_Medium,

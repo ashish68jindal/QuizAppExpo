@@ -1,5 +1,5 @@
 import React from "react";
-import { CheckBox } from '@rneui/themed';
+import { CheckBox } from 'react-native-elements';
 
 function CheckBoxset(props) {
     const { checked, onPress, iconType, checkedIcon, uncheckedIcon, checkedColor } = props;

@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import propTypes from 'prop-types';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { SF, SH, SW, Fonts, Colors } from '../../utils';
-import { Input } from '@rneui/themed';
+import { Input } from 'react-native-elements';
 import { VectorIcon } from '../../components';
 
 function PasswordInput({

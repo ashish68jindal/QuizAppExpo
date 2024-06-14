@@ -1,44 +1,36 @@
-import React, { useMemo, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import LottieView from "lottie-react-native";
-import { Animated, Easing, StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import { SW } from "../../utils";
 
-function Lottie(props) {
-  const { source, Lottiewidthstyle, centerlottw } = props;
+function LottieAnimation(props) {
+  const { source } = props;
   const animation = useRef();
-  const animationProgress = useRef(new Animated.Value(0));
   useEffect(() => {
-    animation?.current?.play();
-    Animated.timing(animationProgress.current, {
-      toValue: 1,
-      duration: 5000,
-      easing: Easing.linear,
-      useNativeDriver: false,
-    }).start();
+    if (animation?.current) {
+      animation?.current?.play();
+    }
   }, []);
-  const styles = useMemo(() =>
-    StyleSheet.create({
-      Setlottesfilestyle: {
-        width: SW(330),
-      },
-      centerlottw: {
+
+  return (
+    <View
+      style={{
         flexDirection: "row",
         justifyContent: "center",
-        width: "100%",
-      },
-    })
-  );
-  return (
-    <View style={[styles.centerlottw, { ...centerlottw }]}>
+        flex: 1,
+      }}
+    >
       <LottieView
         ref={animation}
-        resizeMode="cover"
-        style={[styles.Setlottesfilestyle, { ...Lottiewidthstyle }]}
+        style={{
+          width: '100%',
+          height:'90%'
+        }}
         autoPlay={true}
+        loop={true}
         source={source}
-        // progress={animationProgress.current}
       />
     </View>
   );
 }
-export default Lottie;
+export default LottieAnimation;

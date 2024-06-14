@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Button } from '@rneui/themed';
+import { Button } from 'react-native-elements';
 import { TouchableOpacity, StyleSheet, Text, Image, View } from 'react-native';
 import { Fonts, SF, SH, SW, Colors } from '../../utils';
 
@@ -40,6 +40,7 @@ function Buttons(props) {
         onPress={onPress}
         icon={icon}
         disabled={disable}
+        linearGradientProps={linearGradientProps}
         buttonStyle={[styles.buttonStyle, { ...buttonStyle }]}
         titleStyle={[styles.buttonTextStyle, { ...buttonTextStyle }]}
       />

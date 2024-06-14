@@ -3,7 +3,7 @@ import { View, TouchableOpacity } from 'react-native';
 import { Login } from '../../styles';
 import { useTranslation } from "react-i18next";
 import { useTheme } from '@react-navigation/native';
-// import CountryPicker from 'react-native-country-picker-modal';
+import CountryPicker from 'react-native-country-picker-modal';
 import { VectorIcon } from '../../components';
 import {SF} from '../../utils';
 
@@ -29,7 +29,7 @@ const Countrycode = () => {
         style={Logins.countryCodePickerView}
         onPress={() => { setShowCountryModal(true) }}
       >
-        {/* <CountryPicker
+        <CountryPicker
           {
           ...{
             countryCode,
@@ -44,7 +44,7 @@ const Countrycode = () => {
           }}
           onClose={() => setShowCountryModal(false)}
           onOpen={() => setShowCountryModal(true)}
-        /> */}
+        />
         <VectorIcon icon="FontAwesome" name="angle-down" style={Logins.dropdowniconright} size={SF(20)} />
       </TouchableOpacity>
     </View>

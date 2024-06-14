@@ -1,8 +1,8 @@
-import {SafeAreaView, StyleSheet, View} from 'react-native';
-import React, {useMemo} from 'react';
-import propTypes from 'prop-types';
-import { useTheme } from '@react-navigation/native';
-import { Colors } from '../../utils';
+import { SafeAreaView, StyleSheet, View } from "react-native";
+import React, { useMemo } from "react";
+import propTypes from "prop-types";
+import { useTheme } from "@react-navigation/native";
+import { Colors } from "../../utils";
 
 const ContainerComponent = ({
   children,
@@ -13,40 +13,39 @@ const ContainerComponent = ({
   statusBarPropStyle,
   containerPropStyle,
 }) => {
-
   const { colors } = useTheme();
   const styles = useMemo(
     () =>
       StyleSheet.create({
         statusBarStyle: {
           flex: 0,
-          backgroundColor: status_Bar ? colors.white : 'transparent',
+          backgroundColor: status_Bar ? colors.white : "transparent",
         },
         containerStyle: {
           flex: 1,
-          backgroundColor: backgroundColor ?? Colors.theme_backgound
+          backgroundColor: backgroundColor ?? Colors.theme_backgound,
         },
       }),
-    [backgroundColor, status_Bar, colors],
+    [backgroundColor, status_Bar, colors]
   );
   return fullScreen ? (
-    <View style={[styles.containerStyle, {...containerPropStyle}]}>
+    <View style={[styles.containerStyle, { ...containerPropStyle }]}>
       {children}
     </View>
   ) : (
-    <View style={[styles.containerStyle, {...containerPropStyle}]}>
+    <View style={[styles.containerStyle, { ...containerPropStyle }]}>
       <SafeAreaView
         style={[
           styles.statusBarStyle,
-          {statusBarPropStyle, backgroundColor: statusBarBackgroundColor},
+          { statusBarPropStyle, backgroundColor: statusBarBackgroundColor },
         ]}
       />
-      <SafeAreaView style={[styles.containerStyle, {...containerPropStyle}]}>
+      <SafeAreaView style={[styles.containerStyle, { ...containerPropStyle }]}>
         {children}
       </SafeAreaView>
     </View>
   );
-}
+};
 
 ContainerComponent.defaultProps = {
   backgroundColor: Colors.white_text_color,

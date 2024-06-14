@@ -130,7 +130,8 @@ export default StyleSheet.create({
     borderColor: Colors.black_text_color,
     borderRadius: SW(7),
     alignSelf: 'center',
-    position: 'relative'
+    position: 'relative',
+    backgroundColor:Colors.white_text_color  
   },
   SettingStyle: {
     flexDirection: 'row',
@@ -194,6 +195,6 @@ export default StyleSheet.create({
   },
   DropDownIcon: {
     position: 'absolute',
-    right: SW(15)
+    right: SW(15),
   }
 });

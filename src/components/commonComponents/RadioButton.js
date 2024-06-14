@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import propTypes from 'prop-types';
 import { View, Text, StyleSheet } from 'react-native';
 import { SF, SH, SW, Fonts, Colors } from '../../utils';
-import { CheckBox } from '@rneui/themed';
+import { CheckBox } from 'react-native-elements';
 
 function RadioButton({
   onChangeText,

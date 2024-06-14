@@ -1,26 +1,26 @@
-import React, {useEffect} from 'react';
-import {View, StatusBar} from 'react-native';
-import images from '../../index';
-import {Style} from '../../styles';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useDispatch} from 'react-redux';
-import {color_picker_set_action} from '../../redux/action/CommonAction';
-import {RouteName} from '../../routes';
-import {Lottie} from '../../components';
-import {Colors} from '../../utils';
-import {useSelector} from 'react-redux';
+import React, { useEffect } from "react";
+import { View, StatusBar } from "react-native";
+import images from "../../index";
+import { Style } from "../../styles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
+import { color_picker_set_action } from "../../redux/action/CommonAction";
+import { RouteName } from "../../routes";
+import { LottieAnimation } from "../../components";
+import { Colors } from "../../utils";
+import { useSelector } from "react-redux";
 
-const SplashScreen = ({navigation}) => {
-  const {colorrdata} = useSelector(state => state.commonReducer) || {};
+const SplashScreen = ({ navigation }) => {
+  const { colorrdata } = useSelector((state) => state.commonReducer) || {};
   const dispatch = useDispatch();
   useEffect(() => {
     setTimeout(() => {
-      AsyncStorage.getItem('user_id').then(value =>
-        navigation.replace(RouteName.SWIPER_SCREEN),
+      AsyncStorage.getItem("user_id").then((value) =>
+        navigation.replace(RouteName.SWIPER_SCREEN)
       );
     }, 2500);
     {
-      colorrdata != ''
+      colorrdata != ""
         ? dispatch(color_picker_set_action(colorrdata))
         : dispatch(color_picker_set_action(Colors.theme_background));
     }
@@ -29,7 +29,7 @@ const SplashScreen = ({navigation}) => {
     <View style={Style.SplashMinView}>
       <StatusBar backgroundColor={Colors.theme_background} />
       <View style={Style.MinViewStyleSplash}>
-        <Lottie source={images.Splash_Swiper} />
+        <LottieAnimation source={images.Splash_Swiper} />
       </View>
     </View>
   );

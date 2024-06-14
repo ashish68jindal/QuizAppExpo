@@ -2,7 +2,7 @@ import React, { useMemo, } from 'react';
 import { View, Text, Image } from 'react-native';
 import { QuestionsStyle } from '../../styles';
 import { SF, Colors, SH, SW } from '../../utils';
-import { Spacing, CircleCount, Lottie, Button } from '../../components';
+import { Spacing, CircleCount, LottieAnimation, Button } from '../../components';
 import { useTranslation } from "react-i18next";
 import { useTheme } from '@react-navigation/native';
 import { RouteName } from '../../routes';
@@ -16,7 +16,7 @@ const QuestionResultShowFun = (props) => {
    const QuestionsStyles = useMemo(() => QuestionsStyle(Colors), [Colors]);
    return (
       <View style={QuestionsStyles.ResutBoxWrap}>
-         <Lottie source={images.congratsAnimation} Lottiewidthstyle={QuestionsStyles.Lottiewidthstyle} />
+         <LottieAnimation source={images.congratsAnimation} Lottiewidthstyle={QuestionsStyles.Lottiewidthstyle} />
          <View style={QuestionsStyles.CircleBox}>
             <CircleCount
                title={grade}

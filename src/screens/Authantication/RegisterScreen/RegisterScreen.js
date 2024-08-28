@@ -5,6 +5,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Linking,
+  Alert,
 } from "react-native";
 import {
   Input,
@@ -20,7 +21,7 @@ import { Login, Style } from "../../../styles";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../../../config/firebase";
 
 const Register = (props) => {
@@ -34,7 +35,6 @@ const Register = (props) => {
     toggleCheckBox: false,
   };
   const [state, setState] = useState(stateArray);
-  const [email, setEmail] = useState("");
   const { t } = useTranslation();
   const [passwordVisibility, setpasswordVisibility] = useState(true);
   const [TextInputPassword, setTextInputPassword] = useState("");
@@ -47,56 +47,58 @@ const Register = (props) => {
 
   const validate = () => {
     return (
-      state.username === "" ||
-      state.mobileNumber == "" ||
-      state.emailId === "" ||
-      TextInputPassword === ""
+      state.username === "" || state.emailId === "" || TextInputPassword === ""
     );
   };
 
   const onAPICall = async () => {
-    fetch(`${baseUrl()}register`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: state.username,
-        email: state.emailId,
-        phone: state.mobileNumber,
-        password: TextInputPassword,
-      }),
-    })
-      .then((resp) => resp.json())
-      .then(async (json) => {
-        if (json.success) {
-          await AsyncStorage.setItem("login", "1");
-          await AsyncStorage.setItem("token", json.accessToken);
-          await AsyncStorage.setItem("email", json?.user?.email);
-          await AsyncStorage.setItem("name", json?.user?.name);
-          await AsyncStorage.setItem("phone", json?.user?.phone);
-          await navigation.replace(RouteName.REGIATRAION_SUCCESSFULL);
-        }
-      })
-      .catch((error) => console.log(error));
-  };
-
-  const onPress = () => {
-    createUserWithEmailAndPassword(auth, 'ashish@yopmail.com', '123456')
-      .then((userCredential) => {
-        console.log("onPress", userCredential);
+    createUserWithEmailAndPassword(auth, state.emailId, TextInputPassword)
+      .then(async (userCredential) => {
         // Signed up
         const user = userCredential.user;
+        await updateProfile(user, {
+          displayName: state.username,
+        });
+        await AsyncStorage.setItem("login", "1");
+        await AsyncStorage.setItem("token", user?.stsTokenManager?.accessToken);
+        await AsyncStorage.setItem("email", user?.email);
+        await AsyncStorage.setItem("name", user?.displayName);
+        await navigation.replace(RouteName.REGIATRAION_SUCCESSFULL);
+
         // ...
       })
       .catch((error) => {
-        console.log("onPress error", error);
-        const errorCode = error.code;
         const errorMessage = error.message;
-        // ..
+        Alert.alert(errorMessage);
       });
+
+    // fetch(`${baseUrl()}register`, {
+    //   method: "POST",
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     name: state.username,
+    //     email: state.emailId,
+    //     phone: state.mobileNumber,
+    //     password: TextInputPassword,
+    //   }),
+    // })
+    //   .then((resp) => resp.json())
+    //   .then(async (json) => {
+    //     if (json.success) {
+    //       await AsyncStorage.setItem("login", "1");
+    //       await AsyncStorage.setItem("token", json.accessToken);
+    //       await AsyncStorage.setItem("email", json?.user?.email);
+    //       await AsyncStorage.setItem("name", json?.user?.name);
+    //       await AsyncStorage.setItem("phone", json?.user?.phone);
+    //       await navigation.replace(RouteName.REGIATRAION_SUCCESSFULL);
+    //     }
+    //   })
+    //   .catch((error) => console.log(error));
   };
+
   return (
     <View style={Logins.MinViewBgColor}>
       <ScrollView contentContainerStyle={Style.ScrollViewStyle}>
@@ -111,27 +113,6 @@ const Register = (props) => {
               onChangeText={(text) => setState({ ...state, username: text })}
               value={state.username}
             />
-            <Spacing space={SH(20)} />
-            <View style={Style.FlexRowPassword}>
-              <View style={Style.InputViewWidth}>
-                <View style={Style.CountryCodeIconCenter}>
-                  <Countrycode />
-                </View>
-                <Input
-                  title={t("Mobile_Number")}
-                  placeholder={t("Mobile_Number")}
-                  onChangeText={(text) =>
-                    setState({ ...state, mobileNumber: text })
-                  }
-                  value={state.mobileNumber}
-                  maxLength={10}
-                  inputType="numeric"
-                  placeholderTextColor={Colors.gray_text_color}
-                  inputStyle={Style.PaddingLeftCountryInput}
-                />
-              </View>
-            </View>
-            <Spacing space={SH(20)} />
             <Input
               title={t("Enter_Your_Email")}
               placeholder={t("Enter_Your_Email")}

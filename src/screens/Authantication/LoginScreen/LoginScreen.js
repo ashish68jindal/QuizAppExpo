@@ -15,6 +15,8 @@ import { useTheme } from "@react-navigation/native";
 import images from "../../../index";
 import { useTranslation } from "react-i18next";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../../config/firebase";
 
 const LoginScreen = (props) => {
   const { Colors } = useTheme();
@@ -34,30 +36,49 @@ const LoginScreen = (props) => {
   };
 
   const onAPICall = async () => {
-    fetch(`${baseUrl()}login`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: TextInputPassword,
-      }),
-    })
-      .then((resp) => resp.json())
-      .then(async (json) => {
-        const { data } = json;
-        if (json.statuscode === 200) {
-          await AsyncStorage.setItem("login", "1");
-          await AsyncStorage.setItem("token", data.accessToken);
-          await AsyncStorage.setItem("email", data?.user?.email);
-          await AsyncStorage.setItem("name", data?.user?.name);
-          await AsyncStorage.setItem("phone", data?.user?.phone);
-          await navigation.replace(RouteName.SIDE_NAVIGATOR);
-        }
+    signInWithEmailAndPassword(auth, email, TextInputPassword)
+      .then(async (userCredential) => {
+        // Signed up
+        const user = userCredential.user;
+        console.log('sdlmlsdflkmsd',user)
+        await AsyncStorage.setItem("login", "1");
+        await AsyncStorage.setItem("token", user?.stsTokenManager?.accessToken);
+        await AsyncStorage.setItem("email", user?.email);
+        await AsyncStorage.setItem("name", user?.displayName);
+        await navigation.replace(RouteName.SIDE_NAVIGATOR);
+        // ...
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.log('sdmdsklm',error)
+        const errorMessage = error.message;
+        Alert.alert(errorMessage);
+      });
+
+
+    // fetch(`${baseUrl()}login`, {
+    //   method: "POST",
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     email: email,
+    //     password: TextInputPassword,
+    //   }),
+    // })
+    //   .then((resp) => resp.json())
+    //   .then(async (json) => {
+    //     const { data } = json;
+    //     if (json.statuscode === 200) {
+    //       await AsyncStorage.setItem("login", "1");
+    //       await AsyncStorage.setItem("token", data.accessToken);
+    //       await AsyncStorage.setItem("email", data?.user?.email);
+    //       await AsyncStorage.setItem("name", data?.user?.name);
+    //       await AsyncStorage.setItem("phone", data?.user?.phone);
+    //       await navigation.replace(RouteName.SIDE_NAVIGATOR);
+    //     }
+    //   })
+    //   .catch((error) => console.error(error));
   };
 
   const OnRegisterPress = () => {

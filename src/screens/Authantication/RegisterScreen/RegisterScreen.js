@@ -20,6 +20,8 @@ import { Login, Style } from "../../../styles";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../../config/firebase";
 
 const Register = (props) => {
   const { navigation } = props;
@@ -32,6 +34,7 @@ const Register = (props) => {
     toggleCheckBox: false,
   };
   const [state, setState] = useState(stateArray);
+  const [email, setEmail] = useState("");
   const { t } = useTranslation();
   const [passwordVisibility, setpasswordVisibility] = useState(true);
   const [TextInputPassword, setTextInputPassword] = useState("");
@@ -79,6 +82,21 @@ const Register = (props) => {
       .catch((error) => console.log(error));
   };
 
+  const onPress = () => {
+    createUserWithEmailAndPassword(auth, 'ashish@yopmail.com', '123456')
+      .then((userCredential) => {
+        console.log("onPress", userCredential);
+        // Signed up
+        const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        console.log("onPress error", error);
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
+  };
   return (
     <View style={Logins.MinViewBgColor}>
       <ScrollView contentContainerStyle={Style.ScrollViewStyle}>

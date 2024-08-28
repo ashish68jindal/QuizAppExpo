@@ -42,7 +42,7 @@ const RootNavigator = props => {
   }, [colorrdata, Colors]);
   return (
     <NavigationContainer theme={colorValue}>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Navigator initialRouteName={RouteName.REGISTER_SCREEN} screenOptions={{headerShown: false}}>
         <Stack.Screen name={RouteName.SPLSH} component={SplashScreen} />
         <Stack.Screen name={RouteName.LOGIN_SCREEN} component={LoginScreen} />
         <Stack.Screen

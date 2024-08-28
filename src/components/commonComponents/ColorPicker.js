@@ -46,7 +46,6 @@ const ColorPickerset = (props) => {
                     onColorSelected={Colors.theme_background}
                     thumbSize={50}
                     noSnap={true}
-                    defaultProps={true}
                     row={false}
                     gapSize={0}
                     discreteLength={0}

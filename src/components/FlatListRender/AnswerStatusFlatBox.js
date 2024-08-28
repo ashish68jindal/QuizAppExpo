@@ -7,21 +7,20 @@ import { useTranslation } from "react-i18next";
 import { useTheme } from '@react-navigation/native';
 
 const AnswerStatusFlatBox = (props) => {
-   const { item } = props;
+   const { item,index } = props;
    const { t } = useTranslation();
    const { Colors } = useTheme();
    const ExamReviewStyles = useMemo(() => ExamReviewStyle(Colors), [Colors]);
-
    return (
       <View style={ExamReviewStyles.answerBox}>
          {
-            item.answerAtemptStatus == true ? <VectorIcon icon="Feather" name="check" size={SF(50)} color={Colors.green_color} />
+            item.selectedAnswer == item.correctAnswer ? <VectorIcon icon="Feather" name="check" size={SF(50)} color={Colors.green_color} />
                :
                <VectorIcon icon="AntDesign" name="close" size={SF(50)} color={Colors.red} />
          }
 
          <Spacing />
-         <Text style={ExamReviewStyles.questionText}>{t("Question_Label")}{' '}{item.questionNumber}</Text>
+         <Text style={ExamReviewStyles.questionText}>{t("Question_Label")}{' '}{index+1}</Text>
       </View>
    )
 }

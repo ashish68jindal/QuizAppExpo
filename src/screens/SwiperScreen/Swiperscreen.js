@@ -8,6 +8,8 @@ import { SH } from "../../utils";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@react-navigation/native";
 import images from "../../index";
+import { color } from "@rneui/base";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const App = ({ navigation }) => {
   const { t } = useTranslation();
@@ -19,13 +21,28 @@ const App = ({ navigation }) => {
       key: "s1",
       text: "Swiperfirst",
       title: "Swipertitle",
-      animation: require("../../images/LottieAnimation/FirstSwiper.json"),
+      animation: images.First_Swiper,
+      colorFilters: [
+        {
+          keypath: "Comp 11",
+          color: "blue",
+        },
+        {
+          keypath: "brain",
+          color: "blue",
+        },
+        {
+          keypath: "quiz text",
+          color: "blue",
+        },
+      ],
     },
     {
       key: "s2",
       text: "SwiperFirstTwo",
       title: "SwiperTitleTwo",
       animation: images.Two_Swiper,
+      colorFilters: [],
     },
     {
       key: "s3",
@@ -33,6 +50,12 @@ const App = ({ navigation }) => {
       title: "Swipertitlethree",
       animation: images.Three_Swiper,
       backgroundColor: "transparent",
+      colorFilters: [
+        {
+          keypath: "Pen",
+          color: "blue",
+        },
+      ],
     },
   ];
 
@@ -44,7 +67,10 @@ const App = ({ navigation }) => {
           contentContainerStyle={SwiperStyles.ScrollViewStyle}
         >
           <View style={SwiperStyles.AnimationViewStyle}>
-            <LottieAnimation source={item.animation} />
+            <LottieAnimation
+              source={item.animation}
+              colorFilters={item.colorFilters}
+            />
           </View>
         </ScrollView>
         <Text style={SwiperStyles.TitleStyles}>{t(item.title)}</Text>
@@ -52,13 +78,19 @@ const App = ({ navigation }) => {
       </View>
     );
   };
+
+  const onNavigation = async () => {
+    await AsyncStorage.setItem("appIntro", "1");
+    navigation.replace(RouteName.SELECT_LANGUAGE);
+  };
+
   const _renderDoneButton = () => {
     return (
       <View style={SwiperStyles.ButtonCircle}>
         <Button
           title={t("Get_Started")}
           buttonStyle={SwiperStyles.buttonStyle}
-          onPress={() => navigation.navigate(RouteName.SELECT_LANGUAGE)}
+          onPress={() => onNavigation()}
         />
       </View>
     );
@@ -75,7 +107,7 @@ const App = ({ navigation }) => {
     return (
       <View style={SwiperStyles.BgButtonView}>
         <TouchableOpacity
-          onPress={() => navigation.navigate(RouteName.SELECT_LANGUAGE)}
+          onPress={() => onNavigation()}
         >
           <Spacing space={SH(12)} />
           <Text style={SwiperStyles.NextTextStyle}>{t("Skip_Text")}</Text>

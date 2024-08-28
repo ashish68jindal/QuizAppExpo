@@ -47,14 +47,7 @@ const ContainerComponent = ({
   );
 };
 
-ContainerComponent.defaultProps = {
-  backgroundColor: Colors.white_text_color,
-  fullScreen: false,
-  status_Bar: false,
-  statusBarBackgroundColor: Colors.white_text_color,
-  statusBarPropStyle: {},
-  containerPropStyle: {},
-};
+
 
 ContainerComponent.propTypes = {
   backgroundColor: propTypes.string,

@@ -30,3 +30,8 @@ export const widthPercent = percent => {
 export const fontPercent = percent => {
   return hp(percent);
 };
+
+export const baseUrl = () => {
+  return 'http://192.168.8.54:8001/api/';
+  // return 'https://quiz.node.brandeducer.online/api/';
+};

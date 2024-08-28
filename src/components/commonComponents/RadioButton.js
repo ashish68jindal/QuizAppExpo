@@ -63,20 +63,7 @@ function RadioButton({
   );
 }
 
-RadioButton.defaultProps = {
-  title: '',
-  placeholder: '',
-  titleStyle: {},
-  inputStyle: {},
-  onChangeText: () => { },
-  onFocus: () => { },
-  onBlur: () => { },
-  value: '',
-  textprops: {},
-  inputprops: {},
-  inputType: null,
-  autoCompleteType: ''
-};
+
 
 RadioButton.propTypes = {
   title: propTypes.string,

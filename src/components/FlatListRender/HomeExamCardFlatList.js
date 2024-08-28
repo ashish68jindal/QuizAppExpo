@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { HomeStyle } from "../../styles";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@react-navigation/native";
@@ -23,10 +23,10 @@ const HomeExamCardFlatList = (props) => {
           ]}
         >
           <LottieAnimation
-            source={images.bganimation}
+            source={item.bgimage}
             Lottiewidthstyle={HomeStyles.Lottiewidthstyle}
           />
-          <Image source={item.bgimage} style={HomeStyles.bgimage} />
+          
           <View style={HomeStyles.TitleBox}>
             <Text style={HomeStyles.examTitle}>{t(item.examTitle)}</Text>
           </View>
@@ -41,10 +41,10 @@ const HomeExamCardFlatList = (props) => {
           ]}
         >
           <LottieAnimation
-            source={images.bganimation}
+            source={item.bgimage}
             Lottiewidthstyle={HomeStyles.Lottiewidthstyle}
           />
-          <Image source={item.bgimage} style={HomeStyles.bgimage} />
+          
           <View style={HomeStyles.TitleBox}>
             <Text style={HomeStyles.examTitle}>{t(item.examTitle)}</Text>
           </View>

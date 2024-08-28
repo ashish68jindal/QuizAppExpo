@@ -116,21 +116,7 @@ function PasswordInput({
   );
 }
 
-PasswordInput.defaultProps = {
-  title: '',
-  placeholder: '',
-  titleStyle: {},
-  inputStyle: {},
-  onChangeText: () => { },
-  onFocus: () => { },
-  onBlur: () => { },
-  value: '',
-  textprops: {},
-  inputprops: {},
-  inputType: null,
-  autoCompleteType: '',
-  onEndEditing: () => { },
-};
+
 
 PasswordInput.propTypes = {
   title: propTypes.string,

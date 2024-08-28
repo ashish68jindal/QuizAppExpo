@@ -24,16 +24,7 @@ function RowComponent({children, rowStyle, flex, backgroundColor, width, height,
   :  <View style={styles.rowStyles}>{children}</View>;
 }
 
-RowComponent.defaultProps = {
-  rowStyle: {},
-  flex: 0,
-  backgroundColor: 'transparent',
-  alignItems: 'center',
-  width: null,
-  height: null,
-  touchable: false,
-  onPress: () => {}
-};
+
 
 RowComponent.propTypes = {
   rowStyle: propTypes.shape({}),

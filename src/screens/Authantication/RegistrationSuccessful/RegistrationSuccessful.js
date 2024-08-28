@@ -28,32 +28,27 @@ const RegistrationSuccessful = ({ navigation }) => {
   }, [])
 
   return (
-    <View style={Logins.MinViewScreen}>
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={Style.ScrollViewStyles}>
-        <KeyboardAvoidingView enabled>
-          <View style={Logins.KeyBordTopViewStyle}>
-            <View style={Logins.MinFlexView}>
-              <View style={Logins.MinViewSecond}>
+    <View style={Login.MinViewScreenNew}>
+
+
                 <LottieView
                   resizeMode="contain"
                   autoPlay={true}
+                  style={{
+                    width: "100%",
+                    height: "90%",
+                  }}
                   source={images.Account_created}
-                  progress={animationProgress.current}
                 />
-                <Spacing space={SH(350)} />
+                <Spacing space={SH(10)} />
                 <View style={Logins.AccountButton}>
                   <Button
                     title={t("Get_Started")}
                     onPress={() => OnLoginsPress()}
                   />
                 </View>
-              </View>
-            </View>
-          </View>
-        </KeyboardAvoidingView>
-      </ScrollView>
+
+
     </View>
   );
 };

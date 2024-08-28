@@ -16,7 +16,6 @@ const ModalLanguage = (props) => {
   
     const LanguageDropdownData = [
         { label: "English", value: 'en' },
-        { label: "Arabic", value: 'ara' },
         { label: "Spanish", value: 'Spa' },
         { label: "French", value: 'Fr' },
       ];

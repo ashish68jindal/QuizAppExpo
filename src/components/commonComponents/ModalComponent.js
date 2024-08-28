@@ -36,10 +36,7 @@ function ModalComponent({ children, modalVisible, setModalVisible, close, ModalV
   </Modal>;
 }
 
-Modal.defaultProps = {
-  setModalVisible: () => { },
-  modalVisible: false
-};
+
 
 ModalComponent.propTypes = {
   setModalVisible: propTypes.func,

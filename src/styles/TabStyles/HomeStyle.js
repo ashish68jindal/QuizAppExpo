@@ -74,7 +74,7 @@ export default HomeStyle = (Colors) => StyleSheet.create({
    },
    Lottiewidthstyle: {
       width: '100%',
-      opacity: 0.8
+      height:'100%',
    },
    ModalInContainer: {
       backgroundColor: Colors.white_text_color,

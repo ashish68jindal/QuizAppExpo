@@ -5,6 +5,7 @@ import { RouteName } from '../../routes';
 import { ConfirmationAlert, VectorIcon } from '../../components';
 import { Colors, SF } from '../../utils';
 import { useTranslation } from "react-i18next";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CustomSidebarMenu = (props) => {
   const { t } = useTranslation();
@@ -15,8 +16,10 @@ const CustomSidebarMenu = (props) => {
   var alertdata = {
     'logout': t("Are_You_Sure_logout"),
   }
-  const onoknutton = () => {
-    navigation.navigate(RouteName.LOGIN_SCREEN);
+  const onoknutton = async() => {
+    await AsyncStorage.setItem("login", "0");
+    await AsyncStorage.setItem("token", '');
+    await navigation.navigate(RouteName.LOGIN_SCREEN);
   }
   const Onpressfunction = (e) => {
     navigation.toggleDrawer();

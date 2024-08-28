@@ -49,16 +49,7 @@ function SweetaelertModal(props) {
     </Modal>;
 }
 
-SweetaelertModal.defaultProps = {
-    message: '',
-    setModalVisible: () => { },
-    modalVisible: false,
-    onPress: () => { },
-    onPressCancel: () => { },
-    buttonText: 'Ok',
-    cancelButtonText: '',
-    iconVisible: false
-};
+
 
 SweetaelertModal.propTypes = {
     message: propTypes.string,

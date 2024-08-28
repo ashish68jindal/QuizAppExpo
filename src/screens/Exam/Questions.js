@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, Animated, Image } from "react-native";
 import { QuestionsStyle } from "../../styles";
-import { SF, examNumber1 } from "../../utils";
+import { SF, baseUrl } from "../../utils";
 import {
   Container,
   VectorIcon,
@@ -12,13 +12,15 @@ import { useTranslation } from "react-i18next";
 import { useTheme } from "@react-navigation/native";
 import { RouteName } from "../../routes";
 import images from "../../index";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Questions = (props) => {
-  const { navigation } = props;
+  const { navigation, route } = props;
   const { t } = useTranslation();
+  const { subject, level } = route.params;
   const { Colors } = useTheme();
   const QuestionsStyles = useMemo(() => QuestionsStyle(Colors), [Colors]);
-  const [questions, setQuestions] = useState(examNumber1);
+  const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [progress] = useState(new Animated.Value(0));
 
@@ -26,6 +28,7 @@ const Questions = (props) => {
 
   useEffect(() => {
     startProgress();
+    APICall();
     const timer = setInterval(() => {
       setSecondsRemaining((prevSeconds) => prevSeconds - 1);
     }, 1000);
@@ -35,6 +38,22 @@ const Questions = (props) => {
       clearInterval(timer);
     };
   }, []);
+
+  const APICall = async () => {
+    fetch(`${baseUrl()}getQuestions`)
+      .then((resp) => resp.json())
+      .then((json) => {
+        const newArray = json?.data?.filter((item) => {
+          return (item.subject === subject) & (item.level === level);
+        });
+
+        const newData = newArray?.map((item, index) => {
+          return { ...item, selectedAnswer: null };
+        });
+        setQuestions(newData);
+      })
+      .catch((error) => console.error(error));
+  };
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -71,6 +90,9 @@ const Questions = (props) => {
   };
 
   const handleNextQuestion = () => {
+    if(questions.length-1===currentQuestionIndex){
+      SubmitAPI()
+    }
     setCurrentQuestionIndex(currentQuestionIndex + 1);
   };
 
@@ -91,6 +113,30 @@ const Questions = (props) => {
     });
 
     return (correctAnswers / totalQuestions) * 100;
+  };
+
+  const calculateCorrectAnswer = () => {
+    let correctAnswers = 0;
+
+    questions.forEach((question) => {
+      if (question.selectedAnswer === question.correctAnswer) {
+        correctAnswers++;
+      }
+    });
+
+    return correctAnswers;
+  };
+
+  const calculateWrongAnswer = () => {
+    let wrongAnswers = 0;
+
+    questions.forEach((question) => {
+      if (question.selectedAnswer !== question.correctAnswer) {
+        wrongAnswers++;
+      }
+    });
+
+    return wrongAnswers;
   };
 
   const calculateGrade = (percentage) => {
@@ -193,12 +239,38 @@ const Questions = (props) => {
         percentage={percentage}
         currentQuestionIndex={currentQuestionIndex}
         questions={questions}
-        ExamHandlePress={() => navigation.navigate(RouteName.EXAM_REVIEW)}
-        PracticeMainHandlePress={() =>
-          navigation.navigate(RouteName.PRACTICE_MAIN)
-        }
+        ExamHandlePress={() => navigation.navigate(RouteName.EXAM_REVIEW,{questions})}
+        PracticeMainHandlePress={() => navigation.goBack()}
       />
     );
+  };
+
+  const SubmitAPI = async () => {
+    if (questions.length > 0) {
+      const email = await AsyncStorage.getItem("email");
+      const Answered = calculateCorrectAnswer();
+      const WrongAnswer = calculateWrongAnswer();
+      const Score=calculatePercentage();
+      fetch(`${baseUrl()}addResult`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email.toString(),
+          Answered: Answered.toString(),
+          WrongAnswer: WrongAnswer.toString(),
+          levels: level.toString(),
+          subjects: subject.toString(),
+          UnAnswered:'0',
+          Score:Score.toString()
+        }),
+      })
+        .then((resp) => resp.json())
+        .then(async (json) => {})
+        .catch((error) => console.error(error));
+    }
   };
 
   if (currentQuestionIndex === questions.length) {
@@ -216,7 +288,7 @@ const Questions = (props) => {
       >
         <TouchableOpacity
           style={QuestionsStyles.backArrow}
-          onPress={() => navigation.navigate(RouteName.PRACTICE_MAIN)}
+          onPress={() => navigation.goBack()}
         >
           <VectorIcon
             icon="Fontisto"

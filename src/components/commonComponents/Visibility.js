@@ -5,9 +5,7 @@ function Visibility({visible, children}) {
   return visible && children ? children : <Fragment />;
 }
 
-Visibility.defaultProps = {
-  visible: true,
-};
+
 
 Visibility.propTypes = {
   visible: propTypes.bool || propTypes.any,

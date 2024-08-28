@@ -70,14 +70,7 @@ function AppHeader({ headerStyle, LeftIconStyle, rightView, LeftIconLeftStyle, h
         </RowComponent>
     )
 }
-AppHeader.defaultProps = {
-    headerStyle: {},
-    LeftImageView: null,
-    LeftComponent: null,
-    title: '',
-    rightImage: null,
-    onLeftPress: () => { },
-};
+
 AppHeader.propTypes = {
     headerStyle: propTypes.shape({}),
     LeftImageView: propTypes.any,

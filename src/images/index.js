@@ -6,7 +6,13 @@ const images = {
   Account_created: require('./LottieAnimation/Accountcreated.json'),
   Reviewsimage_screen: require('./LottieAnimation/Reviewsimage.json'),
   Languageanimation: require('./LottieAnimation/languageanimation.json'),
+  python: require('./LottieAnimation/python.json'),
+  c: require('./LottieAnimation/c#.json'),
+  java: require('./LottieAnimation/java.json'),
+  react: require('./LottieAnimation/react.json'),
+
   App_logo: require('./100x100.png'),
+  login: require('./login.png'),
   User_image_one_profile: require('./hundred.png'),
   Color_picker_image: require('./colorpicker.png'),
   Google_image: require('./googleicon.png'),
@@ -42,6 +48,9 @@ const images = {
   practiceAvtarImg1: require('./20x20.png'),
   practiceAvtarImg2: require('./20x20.png'),
   practiceAvtarImg3: require('./20x20.png'),
+  easy: require('./easy.png'),
+  intermediate: require('./intermediate.png'),
+  advance: require('./advance.png'),
   // RightIcon
   right: require('./50x50.png'),
   explation: require('./50x50.png'),

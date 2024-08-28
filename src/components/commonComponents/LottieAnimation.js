@@ -4,7 +4,7 @@ import { View } from "react-native";
 import { SW } from "../../utils";
 
 function LottieAnimation(props) {
-  const { source } = props;
+  const { source, colorFilters = [] } = props;
   const animation = useRef();
   useEffect(() => {
     if (animation?.current) {
@@ -26,6 +26,7 @@ function LottieAnimation(props) {
           width: '100%',
           height:'90%'
         }}
+        colorFilters={colorFilters}
         autoPlay={true}
         loop={true}
         source={source}

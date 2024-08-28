@@ -22,8 +22,8 @@ export default Login = (Colors) => StyleSheet.create({
     fontFamily: Fonts.Poppins_Medium,
   },
   ImageSet: {
-    width: SW(100),
-    height: SH(100),
+    width: SW(120),
+    height: SH(120),
   },
   TextStyle: {
     color: '#263238',
@@ -46,6 +46,12 @@ export default Login = (Colors) => StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: '100%',
+  },
+  MinViewScreenNew: {
+    backgroundColor:Colors.white_text_color,
+    flex:1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   InputSpaceView: {
     width: '100%'

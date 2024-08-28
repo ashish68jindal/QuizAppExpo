@@ -14,6 +14,7 @@ import { LanguageStyles } from "../../../styles";
 import { RouteName } from "../../../routes";
 import images from "../../../index";
 import { SH, Colors, SF, heightPercent } from "../../../utils";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Translation = (props) => {
   const { navigation } = props;
@@ -24,6 +25,12 @@ const Translation = (props) => {
 
   const changeLang = (e) => {
     setSelectLabel(e);
+  };
+
+
+  const onNavigation = async () => {
+    await AsyncStorage.setItem("language", "1");
+    navigation.replace(RouteName.LOGIN_SCREEN);
   };
 
   return (
@@ -60,7 +67,7 @@ const Translation = (props) => {
         <View style={LanguageStyles.BtnVieStyle}>
           <Button
             title={t("Confirm_Text")}
-            onPress={() => navigation.navigate(RouteName.SIDE_NAVIGATOR)}
+            onPress={() => onNavigation()}
           />
         </View>
         </View>

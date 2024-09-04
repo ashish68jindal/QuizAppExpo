@@ -40,7 +40,6 @@ const LoginScreen = (props) => {
       .then(async (userCredential) => {
         // Signed up
         const user = userCredential.user;
-        console.log('sdlmlsdflkmsd',user)
         await AsyncStorage.setItem("login", "1");
         await AsyncStorage.setItem("token", user?.stsTokenManager?.accessToken);
         await AsyncStorage.setItem("email", user?.email);

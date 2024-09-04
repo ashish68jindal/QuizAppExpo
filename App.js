@@ -4,6 +4,8 @@ import { PersistGate } from "redux-persist/integration/react";
 import RootNavigator from "./src/routes/RootNavigator";
 import { store, persistor } from "./src/redux/store";
 import { useFonts } from "expo-font";
+import CustomisableAlert from "react-native-customisable-alert";
+import { SF } from "./src/utils";
 
 const App = () => {
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -24,6 +26,18 @@ const App = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <RootNavigator />
+        <CustomisableAlert
+          textStyle={{
+            fontSize: SF(18),
+            fontWeight: "bold",
+            color: "black",
+          }}
+          titleStyle={{
+            fontSize: SF(18),
+            fontWeight: "bold",
+            color: "black",
+          }}
+        />
       </PersistGate>
     </Provider>
   );

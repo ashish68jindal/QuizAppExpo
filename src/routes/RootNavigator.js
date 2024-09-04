@@ -22,6 +22,9 @@ import {
   ExamReview,
   Answer,
 } from '../screens';
+import AddQuestion from '../screens/AddQuestions/addQuestion';
+import QuestionList from '../screens/AddQuestions/questionList';
+import EditQuestion from '../screens/AddQuestions/editQuestion';
 
 const RootNavigator = props => {
   const {colorrdata} = useSelector(state => state.commonReducer) || {};
@@ -42,7 +45,7 @@ const RootNavigator = props => {
   }, [colorrdata, Colors]);
   return (
     <NavigationContainer theme={colorValue}>
-      <Stack.Navigator initialRouteName={RouteName.REGISTER_SCREEN} screenOptions={{headerShown: false}}>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name={RouteName.SPLSH} component={SplashScreen} />
         <Stack.Screen name={RouteName.LOGIN_SCREEN} component={LoginScreen} />
         <Stack.Screen
@@ -74,6 +77,9 @@ const RootNavigator = props => {
         <Stack.Screen name={RouteName.QUESTIONS} component={Questions} />
         <Stack.Screen name={RouteName.EXAM_REVIEW} component={ExamReview} />
         <Stack.Screen name={RouteName.ANSWER} component={Answer} />
+        <Stack.Screen name={RouteName.ADD_QUESTION} component={AddQuestion} />
+        <Stack.Screen name={RouteName.EDIT_QUESTION} component={EditQuestion} />
+        <Stack.Screen name={RouteName.QUESTION_LIST} component={QuestionList} />
       </Stack.Navigator>
     </NavigationContainer>
   );

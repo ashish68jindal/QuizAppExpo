@@ -116,6 +116,15 @@ const HomeTab = (props) => {
       </View>
       <Spacing space={SH(30)} />
 
+      <Button
+        buttonStyle={[HomeStyles.button]}
+        onPress={() => {
+          navigation.navigate(RouteName.QUESTION_LIST)
+        }}
+        title={t("Handle_Question")}
+      />
+      <Spacing space={SH(30)} />
+
       <FlatList
         data={homeCardData}
         renderItem={({ item, index }) => (

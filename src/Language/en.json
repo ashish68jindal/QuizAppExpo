@@ -44,7 +44,6 @@
     "Change_Phone_Number": "Change Phone Number",
     "Ok": "Ok",
 
-
     "Cancel_Button": "Cancel",
     "Test_Email": "test@abs.com",
     "Change_Email": "Change Email",
@@ -84,7 +83,6 @@
     "Refers_Technologies_Tesdt": "Location tracking refers to technologies that physically locate and electronically  apps",
     "Ok_Text": "Ok",
 
-
     "Jofra_Archer": "Jofra Archer",
     "James_Vince": "James Vince",
     "Liam_Dawson": "Liam Dawson",
@@ -116,7 +114,6 @@
     "Favourite": "Favourite",
     "Type_Your_Message": "Type Your Message",
     "Help_sand_mail": "Send Mail",
-
 
     "Help_sand_mail_Successful": "Send Email Successful",
     "Help_paregraph": "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
@@ -157,7 +154,6 @@
     "Location_Features": "Location Features",
     "Location_text": "Location",
 
-
     "Downnloads_Qualitytext": "Downnloads faster and uses less storage",
     "Enter_Email": "Enter your email address",
     "Submitbutton": "Submit",
@@ -191,7 +187,6 @@
     "Speaker_Icon": "Speaker",
     "Hello_Label": "Hello",
     "Alex_Label": "Alex",
-
 
     "Lets_Workout_Get_Some_Gains_Label": "Let's workout to get some gains",
     "Exam_Title_Label_1": "Practice React exam",
@@ -240,7 +235,6 @@
     "Question_Label_4": "Which of the following statements is true about the Industrial Revolution?",
     "Question_Label_5": "What were some of the key sectors that experienced advancements during the Industrial Revolution?",
 
-
     "Question_Label_6": "How did the Industrial Revolution change the way people lived?",
     "Ques_1_Option_Label_1": "A political movement to overthrow the monarchy.",
     "Ques_1_Option_Label_2": "A period of rapid industrialization and technological advancements.",
@@ -272,7 +266,6 @@
     "Your_Are_Awsome_Label": "You are awsome!",
     "Congratulation_Label": "Congratulation for getting all the answers correct!",
     "Review_Label": "Review",
-
 
     "Go_Exam_Label": "Go Exam",
     "XPLabel_1": "10 XP",
@@ -312,7 +305,6 @@
     "Paypal_Label": "Paypal",
     "Wallets_Label": "Wallets",
 
-
     "PAYMENT_SUCCESSFUL_Label": "PAYMENT SUCCESSFUL",
     "Your_Payment_processed_Label": "Your payment has been processed! Detailes of transaction are include below.",
     "Black_Coffee_Label": "Sport Shoes",
@@ -350,7 +342,6 @@
     "Friend_XP_Lavel_Label_7": "80 XP",
     "Friend_XP_Lavel_Label_8": "75 XP",
 
-
     "Ratio_Label": "Ratio",
     "Weekly_Label": "Weekly",
     "Avrage_Label": "Avrage",
@@ -366,9 +357,7 @@
     "Continue_Label": "Continue",
     "Welcome_My_Exam_Label": "Welcome to MyExam",
     "Reply_Exam_Label": "Reply Exam",
-    "Previous_Label": "Previous"
-
-
-
+    "Previous_Label": "Previous",
+    "Handle_Question": "Handle Questions"
   }
 }

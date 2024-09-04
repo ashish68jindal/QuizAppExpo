@@ -11,7 +11,6 @@ import {
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@react-navigation/native";
 import { RouteName } from "../../routes";
-import images from "../../index";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Questions = (props) => {

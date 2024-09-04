@@ -1,6 +1,10 @@
-import { DATA_DETAILES_TYPE } from "../actiontypes/DataTypes";
+import {
+  DATA_DETAILES_TYPE,
+  QUESTION_LIST_TYPE,
+} from "../actiontypes/DataTypes";
 const initialState = {
-  detailsStore: []
+  detailsStore: [],
+  questionList: [],
 };
 export default function DataReducer(state = initialState, action) {
   switch (action.type) {
@@ -10,6 +14,12 @@ export default function DataReducer(state = initialState, action) {
         detailsStore: action.data,
       };
 
+    case QUESTION_LIST_TYPE: {
+      return {
+        ...state,
+        questionList: action.data,
+      };
+    }
     default: {
       return state;
     }

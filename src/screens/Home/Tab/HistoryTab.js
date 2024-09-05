@@ -13,6 +13,9 @@ import { useTranslation } from "react-i18next";
 import { useTheme } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import { doc, getDoc, onSnapshot, setDoc } from "firebase/firestore";
+import { db } from "../../../../config/firebase";
+
 const HistoryTab = (props) => {
   const { navigation } = props;
   const { Colors } = useTheme();
@@ -22,28 +25,25 @@ const HistoryTab = (props) => {
 
   const APICall = async () => {
     const emailId = await AsyncStorage.getItem("email");
-    await fetch(`${baseUrl()}getResult`)
-      .then((resp) => resp.json())
-      .then((json) => {
-        const newData = json?.data?.find((item) => item.Email === emailId);
+
+
+    const docRef = doc(db, "quiz", "questions");
+
+    onSnapshot(docRef, (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const assignmentData = docSnapshot.data();
+        let res = [];
+        res = Object.values(assignmentData);
+        const newData = assignmentData?.find((item) => item.email === emailId);
         setUserData(newData);
-      })
-      .catch((error) => console.error(error));
+      }
+    });
   };
 
   useEffect(() => {
     APICall();
   }, []);
-  // {"Complete": "2", 
-  //   "Email": "ashish6@yopmail.com", 
-  //   "Name": "dsfdsf",
-  //    "Score": "20",
-  //     "UnAnswered": "0",
-  //      "WrongAnswer": "8",
-  //        "id": 6,
-  //         "levels": "Intermediate",
-  //          "subjects": "React", 
-  //         }
+
 
   const customLabel = (val) => {
     return (

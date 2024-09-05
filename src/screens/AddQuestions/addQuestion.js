@@ -90,8 +90,8 @@ const AddQuestion = (props) => {
             OptionC: options[2]?.label,
             OptionD: options[3]?.label,
             Answer: correctAnswer?.label,
-            Subjects: subject?.label,
-            Levels: level?.label,
+            Subject: subject?.label,
+            Level: level?.label,
           },
         };
 

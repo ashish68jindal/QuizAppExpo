@@ -71,32 +71,6 @@ const Register = (props) => {
         const errorMessage = error.message;
         Alert.alert(errorMessage);
       });
-
-    // fetch(`${baseUrl()}register`, {
-    //   method: "POST",
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     name: state.username,
-    //     email: state.emailId,
-    //     phone: state.mobileNumber,
-    //     password: TextInputPassword,
-    //   }),
-    // })
-    //   .then((resp) => resp.json())
-    //   .then(async (json) => {
-    //     if (json.success) {
-    //       await AsyncStorage.setItem("login", "1");
-    //       await AsyncStorage.setItem("token", json.accessToken);
-    //       await AsyncStorage.setItem("email", json?.user?.email);
-    //       await AsyncStorage.setItem("name", json?.user?.name);
-    //       await AsyncStorage.setItem("phone", json?.user?.phone);
-    //       await navigation.replace(RouteName.REGIATRAION_SUCCESSFULL);
-    //     }
-    //   })
-    //   .catch((error) => console.log(error));
   };
 
   return (

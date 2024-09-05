@@ -7,6 +7,9 @@ import { useTranslation } from "react-i18next";
 import { useTheme } from "@react-navigation/native";
 import images from "../../index";
 
+import { doc, getDoc, onSnapshot, setDoc } from "firebase/firestore";
+import { db } from "../../../config/firebase";
+
 const LeaderBordFlatList = (props) => {
   const { item } = props;
   const { t } = useTranslation();
@@ -14,7 +17,7 @@ const LeaderBordFlatList = (props) => {
   const LeaderboardStyles = useMemo(() => LeaderboardStyle(Colors), [Colors]);
   const {
     Complete,
-    Email,
+    email,
     Name,
     Score,
     UnAnswered,

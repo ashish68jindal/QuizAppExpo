@@ -11,24 +11,29 @@ import {
 } from "../../../components";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@react-navigation/native";
-import images from "../../../index";
+import { doc, getDoc, onSnapshot, setDoc } from "firebase/firestore";
+import { db } from "../../../../config/firebase";
 
 const Leaderboard = (props) => {
-  const { navigation } = props;
-  const { t } = useTranslation();
   const { Colors } = useTheme();
   const LeaderboardStyles = useMemo(() => LeaderboardStyle(Colors), [Colors]);
-  const [leaderData,setLeaderData]=useState([])
+  const [leaderData, setLeaderData] = useState([]);
+
+  const APICall = async () => {
+    const docRef = doc(db, "quiz", "questions");
+    onSnapshot(docRef, (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const assignmentData = docSnapshot.data();
+        let res = [];
+        res = Object.values(assignmentData);
+        setLeaderData(res);
+      }
+    });
+  };
 
   useEffect(() => {
-    fetch(`${baseUrl()}getResult`)
-      .then((resp) => resp.json())
-      .then((json) => {
-        setLeaderData(json.data)
-      })
-      .catch((error) => console.error(error));
+    APICall();
   }, []);
-
 
   const renderHiddenItem = ({ item }) => (
     <View style={LeaderboardStyles.sideBtnBox}>
@@ -55,16 +60,18 @@ const Leaderboard = (props) => {
     <Container>
       <Spacing />
       <View style={LeaderboardStyles.wraper}>
-       {leaderData?<SwipeListViewFun
-          data={leaderData}
-          renderItem={({ item, index }) => <LeaderBordFlatList item={item} />}
-          renderHiddenItem={renderHiddenItem}
-          leftOpenValue={0}
-          disableLeftSwipe={false}
-          rightOpenValue={SW(-120)}
-          previewOpenDelay={3000}
-          disableRightSwipe={false}
-        />:null}
+        {leaderData ? (
+          <SwipeListViewFun
+            data={leaderData}
+            renderItem={({ item, index }) => <LeaderBordFlatList item={item} />}
+            renderHiddenItem={renderHiddenItem}
+            leftOpenValue={0}
+            disableLeftSwipe={false}
+            rightOpenValue={SW(-120)}
+            previewOpenDelay={3000}
+            disableRightSwipe={false}
+          />
+        ) : null}
       </View>
     </Container>
   );

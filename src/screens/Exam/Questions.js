@@ -12,6 +12,8 @@ import { useTranslation } from "react-i18next";
 import { useTheme } from "@react-navigation/native";
 import { RouteName } from "../../routes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { doc, getDoc, onSnapshot, setDoc } from "firebase/firestore";
+import { db } from "../../../config/firebase";
 
 const Questions = (props) => {
   const { navigation, route } = props;
@@ -39,19 +41,40 @@ const Questions = (props) => {
   }, []);
 
   const APICall = async () => {
-    fetch(`${baseUrl()}getQuestions`)
-      .then((resp) => resp.json())
-      .then((json) => {
-        const newArray = json?.data?.filter((item) => {
-          return (item.subject === subject) & (item.level === level);
-        });
+    const docRef = doc(db, "quiz", "questions");
 
+    onSnapshot(docRef, (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const assignmentData = docSnapshot.data();
+        let res = [];
+        res = Object.values(assignmentData);
+        const newArray = res?.filter((item) => {
+          return (item.Subject === subject) & (item.Level === level);
+        });
         const newData = newArray?.map((item, index) => {
-          return { ...item, selectedAnswer: null };
+          const {
+            OptionA,
+            OptionB,
+            OptionC,
+            OptionD,
+            Subject,
+            Level,
+            Answer,
+            Question,
+          } = item;
+          return {
+            ...item,
+            question: Question,
+            subject: Subject,
+            level: Level,
+            correctAnswer: Answer,
+            options: [OptionA, OptionB, OptionC, OptionD],
+            selectedAnswer: null,
+          };
         });
         setQuestions(newData);
-      })
-      .catch((error) => console.error(error));
+      }
+    });
   };
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -89,8 +112,8 @@ const Questions = (props) => {
   };
 
   const handleNextQuestion = () => {
-    if(questions.length-1===currentQuestionIndex){
-      SubmitAPI()
+    if (questions.length - 1 === currentQuestionIndex) {
+      SubmitAPI();
     }
     setCurrentQuestionIndex(currentQuestionIndex + 1);
   };
@@ -238,7 +261,9 @@ const Questions = (props) => {
         percentage={percentage}
         currentQuestionIndex={currentQuestionIndex}
         questions={questions}
-        ExamHandlePress={() => navigation.navigate(RouteName.EXAM_REVIEW,{questions})}
+        ExamHandlePress={() =>
+          navigation.navigate(RouteName.EXAM_REVIEW, { questions })
+        }
         PracticeMainHandlePress={() => navigation.goBack()}
       />
     );
@@ -249,26 +274,37 @@ const Questions = (props) => {
       const email = await AsyncStorage.getItem("email");
       const Answered = calculateCorrectAnswer();
       const WrongAnswer = calculateWrongAnswer();
-      const Score=calculatePercentage();
-      fetch(`${baseUrl()}addResult`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email.toString(),
-          Answered: Answered.toString(),
-          WrongAnswer: WrongAnswer.toString(),
-          levels: level.toString(),
-          subjects: subject.toString(),
-          UnAnswered:'0',
-          Score:Score.toString()
-        }),
-      })
-        .then((resp) => resp.json())
-        .then(async (json) => {})
-        .catch((error) => console.error(error));
+      const Score = calculatePercentage();
+
+      try {
+        const name = email.toString() + subject.toString() + level.toString();
+        const docRef = doc(db, "quiz", "result");
+        const docSnapshot = await getDoc(docRef);
+
+        if (docSnapshot.exists() && name in docSnapshot.data()) {
+          Alert.alert("Error", "Duplicate Data");
+          return;
+        }
+
+        const data = {
+          [name]: {
+            Name: name,
+            email: email.toString(),
+            Answered: Answered.toString(),
+            WrongAnswer: WrongAnswer.toString(),
+            levels: level.toString(),
+            subjects: subject.toString(),
+            UnAnswered: "0",
+            Score: Score.toString(),
+          },
+        };
+
+        await setDoc(docRef, data, { merge: true });
+
+        // Clear input fields after adding exam
+      } catch (error) {
+        console.log("ERROR:", error);
+      }
     }
   };
 

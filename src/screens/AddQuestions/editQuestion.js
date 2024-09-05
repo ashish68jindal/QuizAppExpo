@@ -35,12 +35,12 @@ const EditQuestion = (props) => {
   ];
   const [level, setLevel] = useState(
     selectLevel.find((item) => {
-      return item.label === route.params.data.Levels;
+      return item.label === route.params.data.Level;
     })
   );
   const [subject, setSubject] = useState(
     subjects.find((item) => {
-      return item.label === route.params.data.Subjects;
+      return item.label === route.params.data.Subject;
     })
   );
   const [question, setQuestion] = useState(route.params.data.Question);
@@ -121,8 +121,8 @@ const EditQuestion = (props) => {
             OptionC: options[2]?.label,
             OptionD: options[3]?.label,
             Answer: correctAnswer?.label,
-            Subjects: subject?.label,
-            Levels: level?.label,
+            Subject: subject?.label,
+            Level: level?.label,
           },
         };
 

@@ -30,8 +30,8 @@ const QuestionCard = ({ item, index, onEdit, onDelete }) => {
           <Text style={{ fontWeight: "bold", color: "black" }}>
             {item.Question}
           </Text>
-          <Text style={styles.tableCelll}>{`Level : ${item.Levels}`}</Text>
-          <Text style={styles.tableCelll}>{`Subject : ${item.Subjects}`}</Text>
+          <Text style={styles.tableCelll}>{`Level : ${item.Level}`}</Text>
+          <Text style={styles.tableCelll}>{`Subject : ${item.Subject}`}</Text>
         </View>
       </View>
       <TouchableOpacity style={styles.buttonn} onPress={toggleExpand}>

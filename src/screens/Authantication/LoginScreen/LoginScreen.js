@@ -52,32 +52,6 @@ const LoginScreen = (props) => {
         const errorMessage = error.message;
         Alert.alert(errorMessage);
       });
-
-
-    // fetch(`${baseUrl()}login`, {
-    //   method: "POST",
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     email: email,
-    //     password: TextInputPassword,
-    //   }),
-    // })
-    //   .then((resp) => resp.json())
-    //   .then(async (json) => {
-    //     const { data } = json;
-    //     if (json.statuscode === 200) {
-    //       await AsyncStorage.setItem("login", "1");
-    //       await AsyncStorage.setItem("token", data.accessToken);
-    //       await AsyncStorage.setItem("email", data?.user?.email);
-    //       await AsyncStorage.setItem("name", data?.user?.name);
-    //       await AsyncStorage.setItem("phone", data?.user?.phone);
-    //       await navigation.replace(RouteName.SIDE_NAVIGATOR);
-    //     }
-    //   })
-    //   .catch((error) => console.error(error));
   };
 
   const OnRegisterPress = () => {

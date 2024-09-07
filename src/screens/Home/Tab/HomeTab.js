@@ -22,9 +22,9 @@ const HomeTab = (props) => {
   const { Colors } = useTheme();
   const { navigation } = props;
   const HomeStyles = useMemo(() => HomeStyle(Colors), [Colors]);
-  const [search, setSearch] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [name, setName] = useState("Alex");
+  const [email, setEmail] = useState("");
 
   const selectLevel = [
     { label: t("Exam_Level_Label_1"), value: "1" },
@@ -34,7 +34,9 @@ const HomeTab = (props) => {
 
   const getData = async () => {
     const userName = await AsyncStorage.getItem("name");
+    const userEmail = await AsyncStorage.getItem("email");
     setName(userName);
+    setEmail(userEmail);
   };
 
   useEffect(() => {
@@ -114,15 +116,19 @@ const HomeTab = (props) => {
 
         <Spacing space={SH(20)} />
       </View>
-      <Spacing space={SH(30)} />
+      {email === 'admin@yopmail.com' ? (
+        <>
+          <Spacing space={SH(30)} />
 
-      <Button
-        buttonStyle={[HomeStyles.button]}
-        onPress={() => {
-          navigation.navigate(RouteName.QUESTION_LIST)
-        }}
-        title={t("Handle_Question")}
-      />
+          <Button
+            buttonStyle={[HomeStyles.button]}
+            onPress={() => {
+              navigation.navigate(RouteName.QUESTION_LIST);
+            }}
+            title={t("Handle_Question")}
+          />
+        </>
+      ) : null}
       <Spacing space={SH(30)} />
 
       <FlatList

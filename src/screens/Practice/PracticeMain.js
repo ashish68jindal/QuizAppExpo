@@ -12,19 +12,17 @@ import {
   PracticeExamFlatList,
   Modal,
   Button,
+  LottieAnimation,
 } from "../../components";
 import images from "../../index";
 
 const PracticeMain = (props) => {
   const { navigation, route } = props;
-  const { subject } = route.params;
+  const { examTitle, bgimage, subject, backgroundColor } = route.params;
   const { t } = useTranslation();
   const { Colors } = useTheme();
   const PracticeMainStyles = useMemo(() => PracticeMainStyle(Colors), [Colors]);
   const [modalVisible, setModalVisible] = useState(false);
-  useEffect(() => {
-    setModalVisible(false);
-  }, []);
 
   const practiceExamListData = [
     {
@@ -76,17 +74,26 @@ const PracticeMain = (props) => {
         <Spacing space={SH(20)} />
         <View style={PracticeMainStyles.flexRowAlcn}>
           <View style={PracticeMainStyles.width50}>
-            <Text style={PracticeMainStyles.headingText}>
-              {t("Exam_Title_Label_1")}
-            </Text>
+            <Text style={PracticeMainStyles.headingText}>{t(examTitle)}</Text>
             <Text style={PracticeMainStyles.subHeadingText}>
               {t("Practice_Screen_Sub_Title_1")}
             </Text>
           </View>
-          <View style={PracticeMainStyles.width50}>
-            <Image
-              source={images.practicebgImg}
-              style={PracticeMainStyles.bgimage}
+          <View
+            style={[
+              PracticeMainStyles.width50,
+              {
+                backgroundColor: backgroundColor,
+                height: SH(180),
+                borderRadius: 30,
+                justifyContent: "center",
+                alignItems: "center",
+              },
+            ]}
+          >
+            <LottieAnimation
+              source={bgimage}
+              Lottiewidthstyle={PracticeMainStyles.Lottiewidthstyle}
             />
           </View>
         </View>
@@ -100,7 +107,10 @@ const PracticeMain = (props) => {
             item={item}
             index={index}
             onPress={() =>
-              navigation.navigate(RouteName.QUESTIONS, { subject: subject, level: item.level })
+              navigation.navigate(RouteName.QUESTIONS, {
+                subject: subject,
+                level: item.level,
+              })
             }
           />
         )}

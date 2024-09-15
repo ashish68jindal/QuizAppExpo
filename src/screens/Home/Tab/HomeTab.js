@@ -27,9 +27,9 @@ const HomeTab = (props) => {
   const [email, setEmail] = useState("");
 
   const selectLevel = [
-    { label: t("Exam_Level_Label_1"), value: "1" },
-    { label: t("Exam_Level_Label_2"), value: "2" },
-    { label: t("Exam_Level_Label_3"), value: "3" },
+    { label: "Basics", value: "1" },
+    { label: "Intermediate", value: "2" },
+    { label: "Advanced", value: "3" },
   ];
 
   const getData = async () => {
@@ -50,7 +50,6 @@ const HomeTab = (props) => {
     clientDrop: false,
   };
   const [textInput, setTextInput] = useState(ArrayList);
-  const [isFocus, setIsFocus] = useState(FocusState);
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
@@ -116,7 +115,7 @@ const HomeTab = (props) => {
 
         <Spacing space={SH(20)} />
       </View>
-      {email === 'admin@yopmail.com' ? (
+      {email === "admin@yopmail.com" ? (
         <>
           <Spacing space={SH(30)} />
 
@@ -137,11 +136,7 @@ const HomeTab = (props) => {
           <HomeExamCardFlatList
             item={item}
             index={index}
-            onPress={() =>
-              navigation.navigate(RouteName.PRACTICE_MAIN, {
-                subject: item.subject,
-              })
-            }
+            onPress={() => navigation.navigate(RouteName.PRACTICE_MAIN, item)}
           />
         )}
         numColumns={2}
@@ -152,7 +147,7 @@ const HomeTab = (props) => {
         <View style={HomeStyles.ModalInContainer}>
           <View>
             <View style={HomeStyles.centerModeClass}>
-              <Image source={images.homeModalImg} style={HomeStyles.modalImg} />
+              <Image source={images.exam} style={HomeStyles.modalImg} />
               <Spacing />
               <Text style={HomeStyles.myExamStyle}>
                 {t("Welcome_My_Exam_Label")}
@@ -168,7 +163,6 @@ const HomeTab = (props) => {
               dropdownStyle={HomeStyles.LeadDropdown}
               onChange={(item) => {
                 setTextInput({ ...textInput, clientDrop: item.value });
-                setIsFocus(FocusState.clientDrop);
                 setIsButtonDisabled();
               }}
               placeholder={t("Exam_Prepration_Label")}

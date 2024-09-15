@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import LottieView from "lottie-react-native";
 import { View } from "react-native";
-import { SW } from "../../utils";
 
 function LottieAnimation(props) {
   const { source, colorFilters = [] } = props;
@@ -17,6 +16,8 @@ function LottieAnimation(props) {
       style={{
         flexDirection: "row",
         justifyContent: "center",
+        alignItems:'center',
+        alignSelf:'center',
         flex: 1,
       }}
     >

@@ -12,7 +12,6 @@ import {
   Button,
   CheckBox,
   Spacing,
-  Countrycode,
   PasswordInput,
 } from "../../../components";
 import { SH, baseUrl } from "../../../utils";
@@ -35,6 +34,10 @@ const Register = (props) => {
     toggleCheckBox: false,
   };
   const [state, setState] = useState(stateArray);
+  const emailRegex =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const passwordRegex =
+    /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
   const { t } = useTranslation();
   const [passwordVisibility, setpasswordVisibility] = useState(true);
   const [TextInputPassword, setTextInputPassword] = useState("");
@@ -47,7 +50,12 @@ const Register = (props) => {
 
   const validate = () => {
     return (
-      state.username === "" || state.emailId === "" || TextInputPassword === ""
+      state.username === "" ||
+      state.username.length < 4 ||
+      state.emailId === "" ||
+      TextInputPassword === "" ||
+      !emailRegex.test(state.emailId) ||
+      !passwordRegex.test(TextInputPassword)
     );
   };
 
@@ -86,6 +94,13 @@ const Register = (props) => {
               placeholder={t("Enter_Your_Name")}
               onChangeText={(text) => setState({ ...state, username: text })}
               value={state.username}
+              errorMessage={
+                state.username
+                  ? state.username.length < 4
+                    ? "Name should be at least 5 character"
+                    : ""
+                  : ""
+              }
             />
             <Input
               title={t("Enter_Your_Email")}
@@ -93,6 +108,13 @@ const Register = (props) => {
               onChangeText={(text) => setState({ ...state, emailId: text })}
               value={state.emailId}
               placeholderTextColor={Colors.gray_text_color}
+              errorMessage={
+                state.emailId
+                  ? !emailRegex.test(state.emailId)
+                    ? "Please Enter a Valid Email Id"
+                    : ""
+                  : ""
+              }
             />
             <PasswordInput
               name={passwordVisibility ? "eye-off" : "eye"}
@@ -104,6 +126,13 @@ const Register = (props) => {
               }}
               onChangeText={(text) => setTextInputPassword(text)}
               secureTextEntry={passwordVisibility}
+              errorMessage={
+                TextInputPassword
+                  ? !passwordRegex.test(TextInputPassword)
+                    ? "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character."
+                    : ""
+                  : ""
+              }
             />
             <Spacing space={SH(20)} />
             <View style={Logins.FlexRowChekBox}>

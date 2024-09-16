@@ -67,8 +67,6 @@ function PasswordInput({
         errorStyle: {
           color: Colors.red,
           fontFamily: Fonts.Poppins_Regular,
-          height: errorMessage == "" && SH(0),
-          margin: 0,
         },
         IconPostionAboluteTwo: {
           position: 'absolute',
@@ -104,6 +102,7 @@ function PasswordInput({
         autoCorrect={false}
         errorStyle={styles.errorStyle}
         inputStyle={styles.input_style}
+        errorMessage={errorMessage}
         labelStyle={styles.labelStyle}
         inputContainerStyle={styles.inputContainerStyle}
         placeholderTextColor={Colors.gray_text_color}

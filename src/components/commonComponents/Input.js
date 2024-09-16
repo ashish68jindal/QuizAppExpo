@@ -69,7 +69,7 @@ function Inputs({
           fontFamily: Fonts.Poppins_Medium,
         },
         errorStyle: {
-          color: colorsset.theme_background,
+          color: Colors.red,
           fontFamily: Fonts.Poppins_Regular,
         },
       }),

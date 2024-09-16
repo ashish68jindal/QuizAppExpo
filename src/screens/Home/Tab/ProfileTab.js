@@ -37,15 +37,18 @@ const ProfileTab = (props) => {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const emailRegex =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const passwordRegex =
+    /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
 
-  const stateArray = {
+  const [state, setState] = useState({
     Oldpassword: "",
     Newpassword: "",
     email: "",
     Confirmpassword: "",
     number: null,
-  };
-  const [state, setState] = useState(stateArray);
+  });
   const onChangeText = (text) => {
     if (text === "Oldpassword") {
       setpasswordVisibilityold(!passwordVisibilityold);
@@ -125,8 +128,7 @@ const ProfileTab = (props) => {
           }),
         })
           .then((resp) => resp.json())
-          .then(async (json) => {
-          })
+          .then(async (json) => {})
           .catch((error) => console.error(error));
       }
     }
@@ -367,6 +369,13 @@ const ProfileTab = (props) => {
                               value={state.email}
                               placeholderTextColor={Colors.gray_text_color}
                               inputStyle={Style.Inputplace}
+                              errorMessage={
+                                state.email
+                                  ? !emailRegex.test(state.email)
+                                    ? "Please Enter a Valid Email Id"
+                                    : ""
+                                  : ""
+                              }
                             />
                           </View>
                         ) : modalcontent === 3 ? (
@@ -383,6 +392,13 @@ const ProfileTab = (props) => {
                                   setState({ ...state, Oldpassword: text })
                                 }
                                 value={state.Oldpassword}
+                                errorMessage={
+                                  state.Oldpassword
+                                    ? !passwordRegex.test(state.Oldpassword)
+                                      ? "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character."
+                                      : ""
+                                    : ""
+                                }
                                 onPress={() => {
                                   onChangeText("Oldpassword");
                                 }}
@@ -404,6 +420,13 @@ const ProfileTab = (props) => {
                                 onPress={() => {
                                   onChangeText("Newpassword");
                                 }}
+                                errorMessage={
+                                  state.Newpassword
+                                    ? !passwordRegex.test(state.Newpassword)
+                                      ? "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character."
+                                      : ""
+                                    : ""
+                                }
                               />
                               <Spacing space={SH(5)} />
                               <PasswordInput
@@ -420,6 +443,13 @@ const ProfileTab = (props) => {
                                 value={state.Confirmpassword}
                                 enablesReturnKeyAutomatically
                                 inputStyle={Style.Inputplace}
+                                errorMessage={
+                                  state.Confirmpassword
+                                    ? !passwordRegex.test(state.Confirmpassword)
+                                      ? "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character."
+                                      : ""
+                                    : ""
+                                }
                                 onPress={() => {
                                   onChangeText("Confirmpassword");
                                 }}
@@ -432,7 +462,6 @@ const ProfileTab = (props) => {
                             {t("Are_You_Sure")}
                           </Text>
                         )}
-
                         {modalcontent === 1 ||
                         modalcontent === 2 ||
                         modalcontent === 3 ? (
@@ -443,9 +472,21 @@ const ProfileTab = (props) => {
                                   APICall(modalcontent);
                                   setModalVisible(!modalVisible);
                                 }}
-                                buttonTextStyle={{
-                                  color: Colors.white_text_color,
-                                }}
+                                disable={
+                                  modalcontent === 2
+                                    ? state.email === "" ||
+                                      !emailRegex.test(state.email)
+                                    : modalcontent === 3
+                                    ? state.Oldpassword === "" ||
+                                      state.Confirmpassword === "" ||
+                                      state.Newpassword === "" ||
+                                      state.Confirmpassword !==
+                                        state.Newpassword ||
+                                      !passwordRegex.test(state.Oldpassword) ||
+                                      !passwordRegex.test(state.Newpassword) ||
+                                      !passwordRegex.test(state.Confirmpassword)
+                                    : false
+                                }
                                 title={t("Ok")}
                               />
                             </View>

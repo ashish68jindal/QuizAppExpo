@@ -25,6 +25,11 @@ const LoginScreen = (props) => {
   const [email, setEmail] = useState("");
   const [passwordVisibility, setpasswordVisibility] = useState(true);
   const [TextInputPassword, setTextInputPassword] = useState("");
+  const emailRegex =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const passwordRegex =
+    /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+
   const onChangeText = (text) => {
     if (text === "TextInputPassword")
       setpasswordVisibility(!passwordVisibility);
@@ -32,7 +37,12 @@ const LoginScreen = (props) => {
   const { t } = useTranslation();
 
   const validate = () => {
-    return email === "" || TextInputPassword == "";
+    return (
+      email === "" ||
+      TextInputPassword == "" ||
+      !emailRegex.test(email) ||
+      !passwordRegex.test(TextInputPassword)
+    );
   };
 
   const onAPICall = async () => {
@@ -48,7 +58,7 @@ const LoginScreen = (props) => {
         // ...
       })
       .catch((error) => {
-        console.log('sdmdsklm',error)
+        console.log("sdmdsklm", error);
         const errorMessage = error.message;
         Alert.alert(errorMessage);
       });
@@ -83,6 +93,13 @@ const LoginScreen = (props) => {
                   onChangeText={(text) => setEmail(text)}
                   value={email}
                   placeholderTextColor={Colors.gray_text_color}
+                  errorMessage={
+                    email
+                      ? !emailRegex.test(email)
+                        ? "Please Enter a Valid Email Id"
+                        : ""
+                      : ""
+                  }
                 />
               </View>
               <PasswordInput
@@ -95,6 +112,13 @@ const LoginScreen = (props) => {
                 }}
                 onChangeText={(text) => setTextInputPassword(text)}
                 secureTextEntry={passwordVisibility}
+                errorMessage={
+                  TextInputPassword
+                    ? !passwordRegex.test(TextInputPassword)
+                      ? "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character."
+                      : ""
+                    : ""
+                }
               />
               <Spacing space={SH(10)} />
               <View style={Logins.ViewTextStyle}>

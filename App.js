@@ -5,6 +5,7 @@ import RootNavigator from "./src/routes/RootNavigator";
 import { store, persistor } from "./src/redux/store";
 import CustomisableAlert from "react-native-customisable-alert";
 import { SF } from "./src/utils";
+import { LogBox } from "react-native";
 import AppLoading from "expo-app-loading";
 import {
   useFonts,
@@ -93,7 +94,7 @@ const App = () => {
     Poppins_900Black,
     Poppins_900Black_Italic,
   });
-
+  LogBox.ignoreAllLogs()
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {

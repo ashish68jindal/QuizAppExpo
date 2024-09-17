@@ -38,9 +38,7 @@ const LoginScreen = (props) => {
 
   const validate = () => {
     return (
-      email === "" ||
-      TextInputPassword == "" ||
-      !emailRegex.test(email) ||
+      email === "" || TextInputPassword == "" || !emailRegex.test(email) ||
       !passwordRegex.test(TextInputPassword)
     );
   };
@@ -54,11 +52,10 @@ const LoginScreen = (props) => {
         await AsyncStorage.setItem("token", user?.stsTokenManager?.accessToken);
         await AsyncStorage.setItem("email", user?.email);
         await AsyncStorage.setItem("name", user?.displayName);
+        await AsyncStorage.setItem("user", JSON.stringify(user));
         await navigation.replace(RouteName.SIDE_NAVIGATOR);
-        // ...
       })
       .catch((error) => {
-        console.log("sdmdsklm", error);
         const errorMessage = error.message;
         Alert.alert(errorMessage);
       });

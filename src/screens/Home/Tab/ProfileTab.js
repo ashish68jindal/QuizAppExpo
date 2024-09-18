@@ -6,6 +6,7 @@ import {
   Image,
   Modal,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import { ProfileTabStyles, Style } from "../../../styles";
 import {
@@ -22,6 +23,17 @@ import RouteName from "../../../routes/RouteName";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  deleteField,
+  doc,
+  onSnapshot,
+  setDoc,
+  getDoc,
+  updateDoc,
+  FieldPath,
+} from "firebase/firestore";
+import { db } from "../../../../config/firebase";
+import { closeAlert, showAlert } from "react-native-customisable-alert";
 
 const ProfileTab = (props) => {
   const { Colors } = useTheme();
@@ -36,6 +48,7 @@ const ProfileTab = (props) => {
     useState(true);
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const emailRegex =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -64,72 +77,102 @@ const ProfileTab = (props) => {
   const APICall = async (key) => {
     if (key === 1) {
       if (state.number !== "") {
-        fetch(`${baseUrl()}changePhone`, {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: email,
-            newPhone: state.number,
-          }),
-        })
-          .then((resp) => resp.json())
-          .then(async (json) => {
-            if (json.statuscode === 200) {
-              await AsyncStorage.setItem("phone", state.number);
-              setPhone(state.number);
-            }
-          })
-          .catch((error) => console.error(error));
+        try {
+          const nameId = email;
+          const docRef = doc(db, "quiz", "user");
+
+          await updateDoc(docRef, new FieldPath(nameId), deleteField());
+
+          const data = {
+            [email]: {
+              username: name,
+              email: email,
+              phone: state.number,
+              password: password,
+            },
+          };
+          await setDoc(docRef, data, { merge: true });
+
+          await AsyncStorage.setItem("phone", state.number);
+          setPhone(state.number);
+
+          // Clear input fields after adding exam
+        } catch (error) {
+          console.log("ERROR:", error);
+        }
       }
     }
     if (key === 2) {
       if (state.email !== "") {
-        fetch(`${baseUrl()}changeEmail`, {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: email,
-            newEmail: state.email,
-          }),
-        })
-          .then((resp) => resp.json())
-          .then(async (json) => {
-            if (json.statuscode === 200) {
-              await AsyncStorage.setItem("email", state.email);
-              setEmail(state.email);
-            }
-          })
-          .catch((error) => console.error(error));
+        try {
+          const nameId = email;
+          const docRef = doc(db, "quiz", "user");
+          const docSnapshot = await getDoc(docRef);
+
+          if (docSnapshot.exists() && state.email in docSnapshot.data()) {
+            showAlert({
+              title: " ",
+              message: `Email Already Exist`,
+              alertType: "error",
+              btnLabel: "Ok",
+              onPress: () => {
+                closeAlert();
+              },
+            });
+          } else {
+            await updateDoc(docRef, new FieldPath(nameId), deleteField());
+            const data = {
+              [state.email]: {
+                username: name,
+                email: state.email,
+                phone: phone,
+                password: password,
+              },
+            };
+            await setDoc(docRef, data, { merge: true });
+
+            await AsyncStorage.setItem("email", state.email);
+            await setEmail(state.email);
+          }
+
+          // Clear input fields after adding exam
+        } catch (error) {
+          console.log("ERROR:", error);
+        }
       }
     }
 
-    if (key === 2) {
+    if (key === 3) {
       if (
         state.Confirmpassword !== "" &&
         state.Newpassword !== "" &&
         state.Oldpassword !== ""
       ) {
-        fetch(`${baseUrl()}changePassword`, {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: email,
-            oldPassword: state.oldPassword,
-            newPassword: state.Newpassword,
-          }),
-        })
-          .then((resp) => resp.json())
-          .then(async (json) => {})
-          .catch((error) => console.error(error));
+        if (state.Oldpassword === password) {
+          const nameId = email;
+          const docRef = doc(db, "quiz", "user");
+
+          await updateDoc(docRef, new FieldPath(nameId), deleteField());
+          const data = {
+            [nameId]: {
+              username: name,
+              email: email,
+              phone: phone,
+              password: state.Newpassword,
+            },
+          };
+          await setDoc(docRef, data, { merge: true });
+        } else {
+          showAlert({
+            title: " ",
+            message: `Invalid Old Password`,
+            alertType: "error",
+            btnLabel: "Ok",
+            onPress: () => {
+              closeAlert();
+            },
+          });
+        }
       }
     }
   };
@@ -138,9 +181,11 @@ const ProfileTab = (props) => {
     const emailId = await AsyncStorage.getItem("email");
     const userName = await AsyncStorage.getItem("name");
     const phoneNo = await AsyncStorage.getItem("phone");
+    const password = await AsyncStorage.getItem("password");
     setPhone(phoneNo);
     setEmail(emailId);
     setName(userName);
+    setPassword(password);
     setState({ ...state, email: emailId, number: phoneNo });
   };
 
@@ -159,7 +204,6 @@ const ProfileTab = (props) => {
   };
   const onoknutton = async () => {
     await AsyncStorage.setItem("login", "0");
-    await AsyncStorage.setItem("token", "");
     await navigation.navigate(RouteName.LOGIN_SCREEN);
   };
   return (

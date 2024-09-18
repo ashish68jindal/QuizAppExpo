@@ -12,16 +12,17 @@ import {
   Button,
   CheckBox,
   Spacing,
+  Countrycode,
   PasswordInput,
 } from "../../../components";
-import { SH, baseUrl } from "../../../utils";
+import { SH } from "../../../utils";
 import { RouteName } from "../../../routes";
 import { Login, Style } from "../../../styles";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth } from "../../../../config/firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../../../../config/firebase";
 
 const Register = (props) => {
   const { navigation } = props;
@@ -51,35 +52,70 @@ const Register = (props) => {
   const validate = () => {
     return (
       state.username === "" ||
-      state.username.length < 4 ||
+      state.mobileNumber == "" ||
       state.emailId === "" ||
       TextInputPassword === "" ||
+      state.username.length < 4 ||
       !emailRegex.test(state.emailId) ||
       !passwordRegex.test(TextInputPassword)
     );
   };
 
   const onAPICall = async () => {
-    createUserWithEmailAndPassword(auth, state.emailId, TextInputPassword)
-      .then(async (userCredential) => {
-        // Signed up
-        const user = userCredential.user;
-        await updateProfile(user, {
-          displayName: state.username,
-        });
-        await AsyncStorage.setItem("login", "1");
-        await AsyncStorage.setItem("token", user?.stsTokenManager?.accessToken);
-        await AsyncStorage.setItem("email", user?.email);
-        await AsyncStorage.setItem("name", user?.displayName);
-        await navigation.replace(RouteName.REGIATRAION_SUCCESSFULL);
+    try {
+      const docRef = doc(db, "quiz", "user");
+      const docSnapshot = await getDoc(docRef);
 
-        // ...
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        Alert.alert(errorMessage);
-      });
+      if (docSnapshot.exists() && state.emailId in docSnapshot.data()) {
+        Alert.alert("Error", "User Already Exist");
+        return;
+      }
+
+      const data = {
+        [state.emailId]: {
+          username: state.username,
+          email: state.emailId,
+          phone: state.mobileNumber,
+          password: TextInputPassword,
+        },
+      };
+
+      await setDoc(docRef, data, { merge: true });
+      await AsyncStorage.setItem("login", "1");
+      await AsyncStorage.setItem("email", state.emailId);
+      await AsyncStorage.setItem("name", state.username);
+      await AsyncStorage.setItem("phone", state.mobileNumber);
+      await AsyncStorage.setItem("password", TextInputPassword);
+      await navigation.replace(RouteName.REGIATRAION_SUCCESSFULL);
+
+      // Clear input fields after adding exam
+    } catch (error) {
+      console.log("ERROR:", error);
+    }
   };
+
+  // const onAPICall = async () => {
+  //   createUserWithEmailAndPassword(auth, state.emailId, TextInputPassword)
+  //     .then(async (userCredential) => {
+  //       // Signed up
+  //       const user = userCredential.user;
+  //       await updateProfile(user, {
+  //         displayName: state.username,
+  //       });
+  //       await AsyncStorage.setItem("login", "1");
+  //       await AsyncStorage.setItem("token", user?.stsTokenManager?.accessToken);
+  //       await AsyncStorage.setItem("email", user?.email);
+  //       await AsyncStorage.setItem("name", user?.displayName);
+  //       await navigation.replace(RouteName.REGIATRAION_SUCCESSFULL);
+
+  //       // ...
+  //     })
+  //     .catch((error) => {
+  //       const errorMessage = error.message;
+  //       Alert.alert(errorMessage);
+  //     });
+  // };
+
 
   return (
     <View style={Logins.MinViewBgColor}>
@@ -102,6 +138,27 @@ const Register = (props) => {
                   : ""
               }
             />
+            <Spacing space={SH(20)} />
+            <View style={Style.FlexRowPassword}>
+              <View style={Style.InputViewWidth}>
+                <View style={Style.CountryCodeIconCenter}>
+                  <Countrycode />
+                </View>
+                <Input
+                  title={t("Mobile_Number")}
+                  placeholder={t("Mobile_Number")}
+                  onChangeText={(text) =>
+                    setState({ ...state, mobileNumber: text })
+                  }
+                  value={state.mobileNumber}
+                  maxLength={10}
+                  inputType="numeric"
+                  placeholderTextColor={Colors.gray_text_color}
+                  inputStyle={Style.PaddingLeftCountryInput}
+                />
+              </View>
+            </View>
+            <Spacing space={SH(20)} />
             <Input
               title={t("Enter_Your_Email")}
               placeholder={t("Enter_Your_Email")}

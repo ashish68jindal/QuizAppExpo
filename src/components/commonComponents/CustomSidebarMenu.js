@@ -18,7 +18,6 @@ const CustomSidebarMenu = (props) => {
   }
   const onoknutton = async() => {
     await AsyncStorage.setItem("login", "0");
-    await AsyncStorage.setItem("token", '');
     await navigation.navigate(RouteName.LOGIN_SCREEN);
   }
   const Onpressfunction = (e) => {

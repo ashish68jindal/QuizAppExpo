@@ -10,6 +10,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import {
   deleteField,
   doc,
+  FieldPath,
   onSnapshot,
   setDoc,
   updateDoc,
@@ -107,10 +108,7 @@ const EditQuestion = (props) => {
       try {
         const name = question + subject.label + level.label;
         const docRef = doc(db, "quiz", "questions");
-
-        await updateDoc(docRef, {
-          [route.params.data.Name]: deleteField(),
-        });
+        await updateDoc(docRef, new FieldPath(route.params.data.Name), deleteField());
 
         const data = {
           [name]: {

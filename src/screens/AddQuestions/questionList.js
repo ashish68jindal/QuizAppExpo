@@ -11,6 +11,7 @@ import {
   onSnapshot,
   deleteField,
   updateDoc,
+  FieldPath,
 } from "firebase/firestore";
 import { db } from "../../../config/firebase";
 import { store_question_data_action } from "../../redux/action/DataAction";
@@ -59,9 +60,8 @@ const QuestionList = (props) => {
   const handleDelete = async (data) => {
     try {
       const docRef = doc(db, "quiz", "questions");
-      await updateDoc(docRef, {
-        [data.Name]: deleteField(),
-      });
+      await updateDoc(docRef, new FieldPath(data.Name), deleteField());
+      
       await getQuestions();
     } catch (error) {
       console.error("Error deleting Question:", error.message);

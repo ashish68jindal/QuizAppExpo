@@ -110,9 +110,9 @@ const LoginScreen = (props) => {
   //     });
   // // };
 
-  // const OnRegisterPress = () => {
-  //   navigation.navigate(RouteName.REGISTER_SCREEN);
-  // };
+  const OnRegisterPress = () => {
+    navigation.navigate(RouteName.REGISTER_SCREEN);
+  };
 
   return (
     <Container>

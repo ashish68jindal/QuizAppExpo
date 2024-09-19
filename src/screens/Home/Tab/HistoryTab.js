@@ -34,7 +34,7 @@ const HistoryTab = (props) => {
         const assignmentData = docSnapshot.data();
         let res = [];
         res = Object.values(assignmentData);
-        const newData = assignmentData?.find((item) => item.email === emailId);
+        const newData = res?.find((item) => item.email === emailId);
         setUserData(newData);
       }
     });
@@ -196,12 +196,12 @@ const HistoryTab = (props) => {
             <View style={HistoryTabStyles.Forthinwidth}>
               <PieRigthFun
                 color={Colors.minion_yellow_color}
-                textPercentage={`${userData.Score} %`}
+                textPercentage={`${userData?.Score} %`}
                 textForReportTitle={t("Completed_Label")}
               />
               <PieRigthFun
                 color={Colors.red}
-                textPercentage={`${100-parseInt(userData.Score)} %`}
+                textPercentage={`${100-parseInt(userData?.Score)} %`}
                 textForReportTitle={t("Wrong_Answered_Label")}
               />
               <PieRigthFun

@@ -3,7 +3,7 @@ import LottieView from "lottie-react-native";
 import { View } from "react-native";
 
 function LottieAnimation(props) {
-  const { source, colorFilters = [] } = props;
+  const { source, colorFilters = [], style = {} } = props;
   const animation = useRef();
   useEffect(() => {
     if (animation?.current) {
@@ -16,17 +16,20 @@ function LottieAnimation(props) {
       style={{
         flexDirection: "row",
         justifyContent: "center",
-        alignItems:'center',
-        alignSelf:'center',
+        alignItems: "center",
+        alignSelf: "center",
         flex: 1,
       }}
     >
       <LottieView
         ref={animation}
-        style={{
-          width: '100%',
-          height:'90%'
-        }}
+        style={[
+          {
+            width: "100%",
+            height: "90%",
+          },
+          style,
+        ]}
         colorFilters={colorFilters}
         autoPlay={true}
         loop={true}

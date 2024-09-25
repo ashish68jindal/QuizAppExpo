@@ -4,6 +4,7 @@ import { HomeStyle } from "../../styles";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@react-navigation/native";
 import { LottieAnimation } from "../../components";
+import { SH, SW } from "../../utils";
 
 const HomeExamCardFlatList = (props) => {
   const { item, index, onPress } = props;
@@ -22,7 +23,10 @@ const HomeExamCardFlatList = (props) => {
     >
       <LottieAnimation
         source={item.bgimage}
-        Lottiewidthstyle={HomeStyles.Lottiewidthstyle}
+        style={{
+          width: SW(120),
+          height: SH(120),
+        }}
       />
 
       <View style={HomeStyles.TitleBox}>

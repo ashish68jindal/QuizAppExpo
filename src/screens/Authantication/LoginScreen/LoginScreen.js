@@ -56,7 +56,8 @@ const LoginScreen = (props) => {
       if (docSnapshot.exists() && email in docSnapshot.data()) {
         const data = docSnapshot.data();
         const res = Object.values(data);
-        const loginData = res[0];
+        const index = res.findIndex((item) => item.email === email);
+        const loginData = res[index];
         if (loginData.password === TextInputPassword) {
           await AsyncStorage.setItem("login", "1");
           await AsyncStorage.setItem("email", loginData.email);
